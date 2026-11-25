@@ -3,38 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Time Sheet Kehadiran Karyawan</title>
+    <title>Cek Absensi, Lembur & Uang Makan</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        button:hover { background-color: #219150; }
-        .btn-logout { background-color: #e74c3c; margin-top: 20px; }
-        .btn-logout:hover { background-color: #c0392b; }
-        .error { color: red; text-align: center; margin-top: 10px; font-weight: bold; }
-        .loading { text-align: center; color: #2980b9; font-weight: bold; display: none; margin-top: 10px; }
-        #dashboard-section { display: none; }
-        .profile-box { background: #eafaf1; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #27ae60; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        th { background-color: #2c3e50; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .table-responsive { overflow-x: auto; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        .login-box {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #27ae60;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+        .btn-logout {
+            background-color: #e74c3c;
+            max-width: 200px;
+            margin-top: 20px;
+        }
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+        .error {
+            color: #c0392b;
+            text-align: center;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            color: #2980b9;
+            font-weight: bold;
+            display: none;
+            margin-top: 12px;
+        }
+        #dashboard-section {
+            display: none;
+        }
+        .profile-box {
+            background: #eafaf1;
+            padding: 15px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #27ae60;
+            line-height: 1.6;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+            min-width: 780px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 9px 10px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #2c3e50;
+            color: #ffffff;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <!-- HALAMAN LOGIN -->
-    <div id="login-section">
-        <h2>Login Cek Time Sheet</h2>
+    <div id="login-section" class="login-box">
+        <h2>Login Cek Data Karyawan</h2>
         <div class="form-group">
-            <label for="nik">NIK (Sesuai Database)</label>
-            <input type="text" id="nik" placeholder="Contoh: 5432" required>
+            <label for="nik">NIK</label>
+            <input type="text" id="nik" placeholder="Masukkan NIK Anda" required>
         </div>
         <div class="form-group">
             <label for="tgl_lahir">Tanggal Lahir</label>
@@ -45,10 +136,11 @@
         <div id="error-msg" class="error"></div>
     </div>
 
-    <!-- HALAMAN DASHBOARD DATA -->
+    <!-- HALAMAN DASHBOARD -->
     <div id="dashboard-section">
-        <h2>Time Sheet Kehadiran Karyawan</h2>
+        <h2>Rekap Absensi, Lembur & Uang Makan</h2>
         <div class="profile-box">
+            <strong>NIK:</strong> <span id="disp-nik"></span><br>
             <strong>Nama:</strong> <span id="disp-nama"></span><br>
             <strong>Jabatan:</strong> <span id="disp-jabatan"></span>
         </div>
@@ -57,18 +149,18 @@
             <table>
                 <thead>
                     <tr>
+                        <th>NIK</th>
+                        <th>NAMA</th>
                         <th>HARI</th>
                         <th>TANGGAL</th>
                         <th>ABSEN</th>
-                        <th>JAM_MASUK</th>
-                        <th>JAM_PULANG</th>
-                        <th>JAM_LEMBUR (Jam)</th>
-                        <th>UANG_MAKAN</th>
+                        <th>JAM MASUK</th>
+                        <th>JAM PULANG</th>
+                        <th>JAM LEMBUR</th>
+                        <th>UANG MAKAN</th>
                     </tr>
                 </thead>
-                <tbody id="tabel-body">
-                    <!-- Data akan muncul otomatis di sini -->
-                </tbody>
+                <tbody id="tabel-body"></tbody>
             </table>
         </div>
 
@@ -77,25 +169,29 @@
 </div>
 
 <script>
-    // TEMPELKAN LINK APPS SCRIPT ANDA DI BAWAH INI (DI DALAM TANDA KUTIP)
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJM4W6bL5YtwQDo36ofW679lw5qJqMfvV6AbiLvnp6NvVsEMaSWp40DbSo7SBSRb46bQ/exec";
+    // GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA (DIAKHIRI /exec)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzqYcUyRB08s0clV4GHEyrjd8HqVN8pKkFlXkTL0CLwj0aO1Tzsmptv6NuBCg-zBwUcw/exec";
 
     function prosesLogin() {
-        const nik = document.getElementById("NIK").value;
-        const tglLahir = document.getElementById("tgl_lahir").value;
+        const nik = document.getElementById("nik").value.trim();
+        const tglLahir = document.getElementById("tgl_lahir").value.trim();
         const errorMsg = document.getElementById("error-msg");
         const loading = document.getElementById("loading");
 
         if (!nik || !tglLahir) {
-            errorMsg.innerText = "Harap isi NIK dan Tanggal Lahir!";
+            errorMsg.innerText = "Harap isi NIK dan Tanggal Lahir terlebih dahulu.";
+            return;
+        }
+
+        if (!SCRIPT_URL || SCRIPT_URL === "TEMPEL_URL_APPS_SCRIPT_DISINI") {
+            errorMsg.innerText = "URL Apps Script belum diisi di dalam file index.html.";
             return;
         }
 
         errorMsg.innerText = "";
         loading.style.display = "block";
 
-        // Mengirim permintaan ke Google Spreadsheet
-        const urlLengkap = `${SCRIPT_URL}?nik=${encodeURIComponent(NIK)}&tgl_lahir=${encodeURIComponent(tglLahir)}`;
+        const urlLengkap = `${SCRIPT_URL}?nik=${encodeURIComponent(nik)}&tgl_lahir=${encodeURIComponent(tglLahir)}`;
 
         fetch(urlLengkap)
             .then(response => response.json())
@@ -118,26 +214,29 @@
         document.getElementById("login-section").style.display = "none";
         document.getElementById("dashboard-section").style.display = "block";
 
-        document.getElementById("disp-nama").innerText = data.user.nama;
-        document.getElementById("disp-jabatan").innerText = data.user.jabatan;
+        document.getElementById("disp-nik").innerText = data.user.nik || "-";
+        document.getElementById("disp-nama").innerText = data.user.nama || "-";
+        document.getElementById("disp-jabatan").innerText = data.user.jabatan || "-";
 
         const tbody = document.getElementById("tabel-body");
         tbody.innerHTML = "";
 
-        if (data.laporan.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6">Belum ada data HM atau lemburan.</td></tr>`;
+        if (!data.laporan || data.laporan.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9">Belum ada data laporan untuk NIK ini.</td></tr>`;
             return;
         }
 
         data.laporan.forEach(item => {
             const row = `<tr>
-                <td>${item.HARI}</td>
-                <td>${item.TANGGAL}</td>
-                <td>${item.ABSEN}</td>
-                <td>${item.JAM_MASUK}</td>
-                <td>${item.JAM_PULANG}</td>
-                <td><strong>${item.JAM_LEMBUR}</strong></td>
-                <td><strong>${item.UANG_MAKAN}</strong></td>
+                <td>${item.nik || "-"}</td>
+                <td>${item.nama || "-"}</td>
+                <td>${item.hari || "-"}</td>
+                <td>${item.tanggal || "-"}</td>
+                <td>${item.absen || "-"}</td>
+                <td>${item.jam_masuk || "-"}</td>
+                <td>${item.jam_pulang || "-"}</td>
+                <td><strong>${item.jam_lembur || "0"}</strong></td>
+                <td><strong>${item.uang_makan || "0"}</strong></td>
             </tr>`;
             tbody.innerHTML += row;
         });
@@ -146,6 +245,7 @@
     function logout() {
         document.getElementById("nik").value = "";
         document.getElementById("tgl_lahir").value = "";
+        document.getElementById("error-msg").innerText = "";
         document.getElementById("dashboard-section").style.display = "none";
         document.getElementById("login-section").style.display = "block";
     }
