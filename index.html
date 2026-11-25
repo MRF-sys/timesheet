@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek HM & Lemburan Karyawan</title>
+    <title>Cek Time Sheet Kehadiran Karyawan</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
         .container { max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -31,10 +31,10 @@
 <div class="container">
     <!-- HALAMAN LOGIN -->
     <div id="login-section">
-        <h2>Login Cek HM & Lembur</h2>
+        <h2>Login Cek Time Sheet</h2>
         <div class="form-group">
-            <label for="nama">Nama Lengkap (Sesuai Database)</label>
-            <input type="text" id="nama" placeholder="Contoh: Budi Santoso" required>
+            <label for="nik">NIK (Sesuai Database)</label>
+            <input type="text" id="nik" placeholder="Contoh: 5432" required>
         </div>
         <div class="form-group">
             <label for="tgl_lahir">Tanggal Lahir</label>
@@ -47,7 +47,7 @@
 
     <!-- HALAMAN DASHBOARD DATA -->
     <div id="dashboard-section">
-        <h2>Laporan HM & Lemburan</h2>
+        <h2>Time Sheet Kehadiran Karyawan</h2>
         <div class="profile-box">
             <strong>Nama:</strong> <span id="disp-nama"></span><br>
             <strong>Jabatan:</strong> <span id="disp-jabatan"></span>
@@ -57,12 +57,13 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Unit</th>
-                        <th>HM Awal</th>
-                        <th>HM Akhir</th>
-                        <th>Total HM</th>
-                        <th>Lembur (Jam)</th>
+                        <th>HARI</th>
+                        <th>TANGGAL</th>
+                        <th>ABSEN</th>
+                        <th>JAM_MASUK</th>
+                        <th>JAM_PULANG</th>
+                        <th>JAM_LEMBUR (Jam)</th>
+                        <th>UANG_MAKAN</th>
                     </tr>
                 </thead>
                 <tbody id="tabel-body">
@@ -80,13 +81,13 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJM4W6bL5YtwQDo36ofW679lw5qJqMfvV6AbiLvnp6NvVsEMaSWp40DbSo7SBSRb46bQ/exec";
 
     function prosesLogin() {
-        const nama = document.getElementById("nama").value;
+        const nik = document.getElementById("NIK").value;
         const tglLahir = document.getElementById("tgl_lahir").value;
         const errorMsg = document.getElementById("error-msg");
         const loading = document.getElementById("loading");
 
-        if (!nama || !tglLahir) {
-            errorMsg.innerText = "Harap isi Nama dan Tanggal Lahir!";
+        if (!nik || !tglLahir) {
+            errorMsg.innerText = "Harap isi NIK dan Tanggal Lahir!";
             return;
         }
 
@@ -94,7 +95,7 @@
         loading.style.display = "block";
 
         // Mengirim permintaan ke Google Spreadsheet
-        const urlLengkap = `${SCRIPT_URL}?nama=${encodeURIComponent(nama)}&tgl_lahir=${encodeURIComponent(tglLahir)}`;
+        const urlLengkap = `${SCRIPT_URL}?nik=${encodeURIComponent(NIK)}&tgl_lahir=${encodeURIComponent(tglLahir)}`;
 
         fetch(urlLengkap)
             .then(response => response.json())
@@ -130,19 +131,20 @@
 
         data.laporan.forEach(item => {
             const row = `<tr>
-                <td>${item.tanggal}</td>
-                <td>${item.unit}</td>
-                <td>${item.hm_awal}</td>
-                <td>${item.hm_akhir}</td>
-                <td><strong>${item.total_hm}</strong></td>
-                <td><strong>${item.lembur}</strong></td>
+                <td>${item.HARI}</td>
+                <td>${item.TANGGAL}</td>
+                <td>${item.ABSEN}</td>
+                <td>${item.JAM_MASUK}</td>
+                <td>${item.JAM_PULANG}</td>
+                <td><strong>${item.JAM_LEMBUR}</strong></td>
+                <td><strong>${item.UANG_MAKAN}</strong></td>
             </tr>`;
             tbody.innerHTML += row;
         });
     }
 
     function logout() {
-        document.getElementById("nama").value = "";
+        document.getElementById("nik").value = "";
         document.getElementById("tgl_lahir").value = "";
         document.getElementById("dashboard-section").style.display = "none";
         document.getElementById("login-section").style.display = "block";
