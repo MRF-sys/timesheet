@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Absensi, Lembur & Uang Makan</title>
+    <title>Cek Time Sheet Kehadiran Karyawan</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,19 +138,17 @@
 
     <!-- HALAMAN DASHBOARD -->
     <div id="dashboard-section">
-        <h2>Rekap Absensi, Lembur & Uang Makan</h2>
+        <h2>Cek Time Sheet Kehadiran Karyawan</h2>
         <div class="profile-box">
             <strong>NIK:</strong> <span id="disp-nik"></span><br>
             <strong>Nama:</strong> <span id="disp-nama"></span><br>
-            <strong>Jabatan:</strong> <span id="disp-jabatan"></span>
+            <strong>Departemen:</strong> <span id="disp-departemen"></span>
         </div>
 
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
-                        <th>NIK</th>
-                        <th>NAMA</th>
                         <th>HARI</th>
                         <th>TANGGAL</th>
                         <th>ABSEN</th>
@@ -216,7 +214,7 @@
 
         document.getElementById("disp-nik").innerText = data.user.nik || "-";
         document.getElementById("disp-nama").innerText = data.user.nama || "-";
-        document.getElementById("disp-jabatan").innerText = data.user.jabatan || "-";
+        document.getElementById("disp-departemen").innerText = data.user.departemen || "-";
 
         const tbody = document.getElementById("tabel-body");
         tbody.innerHTML = "";
@@ -228,8 +226,6 @@
 
         data.laporan.forEach(item => {
             const row = `<tr>
-                <td>${item.nik || "-"}</td>
-                <td>${item.nama || "-"}</td>
                 <td>${item.hari || "-"}</td>
                 <td>${item.tanggal || "-"}</td>
                 <td>${item.absen || "-"}</td>
